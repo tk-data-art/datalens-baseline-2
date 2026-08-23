@@ -395,3 +395,210 @@ docs/CHANGELOG.md           |   9 +++++++++
 ---
 
 *This report was generated as part of the DataLens experimental protocol. See `docs/EXPERIMENT.md` for details.*
+
+---
+
+## Task Completion Report — T02: Column Profiler
+
+**Generated:** 2026-08-23
+**Baseline:** Baseline 2 (Claude Code with Graphify, Ponytail, Headroom, CodeBurn)
+
+---
+
+### 1. Task Summary
+
+| Field | Value |
+|---|---|
+| Task ID | T02 |
+| Title | Column Profiler — Per-Column Profiling |
+| Status | Complete |
+| Estimated Time | 40 min |
+| Actual Wall-Clock Time | ~20 min |
+| Time Variance | -20 min |
+
+---
+
+### 2. Objective
+
+Implement `profiler.py` to receive loaded CSV data from `loader.py` and compute per-column statistics: type inference, missing-value counts and percentages, unique-value counts, and numeric statistics (min, max, mean, median, std) for numeric columns.
+
+---
+
+### 3. What Changed
+
+**Before this task:** The pipeline could load CSV data but had no way to profile its contents. Raw rows were available as `list[dict]` but no column-level statistics existed.
+
+**After this task:** The pipeline can compute per-column profiles from loaded data. `profile(rows, column_names)` returns a `list[dict]` with type inference, missing-value metrics, unique counts, and numeric statistics for each column. All 6 fixture files can be profiled. All-missing columns and empty datasets are handled correctly. Sample standard deviation matches the Baseline 1 contract via `statistics.stdev()`.
+
+---
+
+### 4. Files Changed
+
+**Files created:**
+- `src/datalens/profiler.py` — column profiler module with `profile()` public function (48 LOC)
+- `tests/test_profiler.py` — 8 unit tests covering all 6 fixtures, all-missing column, std edge cases
+
+**Files modified:**
+- `docs/TASKS.md` — T02 acceptance criteria marked complete, progress tracker updated
+- `docs/SESSION_LOG.md` — Session 02 entry with plugin activity and CodeBurn metrics
+- `docs/CHANGELOG.md` — v0.3.0 entry added
+- `docs/TASK_COMPLETION.md` — this report
+
+**Files deleted:**
+- None
+
+**Unexpected files modified:**
+- None
+
+---
+
+### 5. Lines Changed
+
+| Metric | Value |
+|---|---|
+| Application implementation lines added | 48 |
+| Application implementation lines removed | 0 |
+| Test lines added | 73 |
+| Test lines removed | 1 (placeholder comment) |
+| Documentation lines added | ~30 |
+| Documentation lines removed | ~5 |
+| **Total lines added** | **~151** |
+| **Total lines removed** | **~6** |
+| **Net change** | **~+145** |
+
+---
+
+### 6. Dependencies
+
+**Added:** None (stdlib `statistics` used)
+
+**Removed:** None
+
+**Dependency changes in `pyproject.toml`:** None
+
+---
+
+### 7. Acceptance Criteria
+
+| Criterion | Result |
+|---|---|
+| `profiler.py` has public function `profile(rows, column_names)` returning `list[dict]` | Pass |
+| Per-column output includes: name, type, missing_count, missing_pct, unique_count | Pass |
+| Numeric columns include: min, max, mean, median, std | Pass |
+| Correctly profiles all 6 fixture files | Pass |
+| Handles empty columns (all missing) without crashing | Pass |
+| Tests pass | Pass — 8/8 |
+
+**Overall:** 6/6 pass
+
+---
+
+### 8. Tests
+
+| Test | Result |
+|---|---|
+| `test_profile_clean_simple` | Pass |
+| `test_profile_missing_values` | Pass (after assertion correction) |
+| `test_profile_mixed_types` | Pass |
+| `test_profile_duplicates` | Pass |
+| `test_profile_edge_empty` | Pass |
+| `test_profile_all_missing_column` | Pass |
+| `test_profile_std_sample` | Pass |
+| `test_profile_std_single_value` | Pass |
+
+**First-run test result:** 6/8 passed on first run. Two assertion corrections needed in `test_profile_missing_values` (incorrect expected values for `missing_count` and `unique_count` — see Learning Notes).
+
+**Test commands run:**
+```bash
+PYTHONPATH=src python3 -m pytest tests/test_profiler.py -v
+# 8 passed in 0.02s
+
+PYTHONPATH=src python3 -m pytest -v
+# 15 passed in 0.01s (no regressions)
+```
+
+---
+
+### 9. Architecture Impact
+
+No architecture changes. profiler.py follows the existing module pattern (one public function, plain Python dicts, stdlib only). It consumes loader.py output without modifying loader.py's contract. No ADR required.
+
+---
+
+### 10. Decisions Made
+
+| Decision | ADR Reference |
+|---|---|
+| `std` uses `statistics.stdev()` (sample standard deviation) | Matches Baseline 1 contract for experimental comparability |
+| All-missing column: no numeric statistics fields included | Locked in pre-flight specification |
+| Type inference excludes empty strings | Missing values are excluded from type inference |
+
+No new ADRs required.
+
+---
+
+### 11. Context Drift
+
+**Classification:** NONE
+
+| Category | Incident | Description | Severity | Resolution |
+|---|---|---|---|---|
+| Application scope drift | None | Implementation stayed within acceptance criteria | — | — |
+| Documentation changes | TASKS.md, SESSION_LOG.md, CHANGELOG.md | Task completion updates | NONE | Within approved scope |
+| Repository/environment changes | None | — | — | — |
+
+---
+
+### 12. Git Diff Summary
+
+```
+src/datalens/profiler.py   |  48 +++++++++++++++++++++++++++++++++++++++
+tests/test_profiler.py     |  73 ++++++++++++++++++++++++++++++++++++++++++++++
+docs/TASKS.md              |   3 ++-
+docs/SESSION_LOG.md        |  56 ++++++++++++++++++++++++++++++++++++++++
+docs/CHANGELOG.md          |   9 +++++++++
+```
+
+| Category | Files added | Files modified | Files deleted | Lines added | Lines removed |
+|---|---|---|---|---|---|
+| Application implementation | 1 | 0 | 0 | 48 | 0 |
+| Tests | 0 | 1 | 0 | 73 | 1 |
+| Documentation | 0 | 3 | 0 | ~68 | ~5 |
+| Repository/environment | 0 | 0 | 0 | 0 | 0 |
+| **Total** | **1** | **4** | **0** | **~189** | **~6** |
+
+---
+
+### 13. Git Checkpoint
+
+**Commit message:** `feat(T02): column profiler module`
+**Commit hash:** `{pending}`
+**Branch:** main
+
+---
+
+### 14. Human Review Required
+
+**Before proceeding to T03, please review:**
+
+1. Type inference rules (integer → float → mixed → string) — acceptable?
+2. `statistics.stdev()` for sample standard deviation — matches Baseline 1 contract?
+3. All-missing column behavior (no numeric fields) — locked and correct?
+4. 8 tests cover all 6 fixtures + all-missing + std edge cases — sufficient?
+5. Two test assertion corrections (missing_count, unique_count) — acceptable?
+6. Any feedback before T03 (`quality.py`)?
+
+**Approval to proceed:** [Pending human approval]
+
+---
+
+### 15. Learning Notes
+
+- **Test assertion corrections:** Two expected values in `test_profile_missing_values` were incorrect. `salary` has 1 missing value (not 2) and 5 unique values (not 4). These were manually calculated expected values that didn't match the fixture data. Always verify expected values against the actual fixture content before writing assertions.
+- **Ponytail effect on profiler.py:** The module has 3 functions (1 public, 2 private). The private helpers (`_try_numeric`, `_infer_type`, `_numeric_stats`) each serve a distinct purpose and are justified. No further abstraction is possible without reducing readability.
+- **`statistics.stdev()` requirement:** Baseline 1 uses `statistics.stdev()` for sample standard deviation. Baseline 2 must match for experimental comparability. The `std=0.0` guard for single-value columns is also preserved.
+- **All-missing column contract:** Locked in pre-flight — no numeric fields included when all values are missing. This prevents inconsistent dict shapes in downstream modules.
+
+---
+
+*This report was generated as part of the DataLens experimental protocol. See `docs/EXPERIMENT.md` for details.*

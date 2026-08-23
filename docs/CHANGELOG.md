@@ -33,3 +33,17 @@
 
 ### Fixed
 - N/A (T01 implementation)
+
+---
+
+## [0.3.0] — 2026-08-23
+
+### Added
+- `src/datalens/profiler.py` — column profiler module with `profile(rows, column_names)` public function
+- `tests/test_profiler.py` — 8 unit tests covering all 6 fixtures, all-missing column, std edge cases
+
+### Changed
+- `tests/test_profiler.py` — replaced placeholder with test functions
+
+### Fixed
+- N/A (T02 implementation)
