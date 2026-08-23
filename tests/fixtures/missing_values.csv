@@ -1,0 +1,7 @@
+name,age,salary,department,city
+Alice,30,60000,Engineering,NYC
+Bob,,50000,Marketing,LA
+Charlie,35,,Engineering,NYC
+Diana,28,55000,,Chicago
+Eve,32,65000,Engineering,
+Frank,40,80000,Marketing,NYC
