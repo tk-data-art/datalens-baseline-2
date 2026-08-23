@@ -13,7 +13,7 @@
 | T02 | profiler.py — per-column profiling | Corrective Pass | 40 min | ~20 min | 9/9 | NONE | `feat(T02): column profiler module` |
 | T03 | quality.py — composite quality score | Complete | 30 min | ~15 min | 9/9 | NONE | `feat(T03): quality score module` |
 | T04 | report.py — HTML report generation | Complete | 40 min | ~15 min | 5/5 | NONE | `feat(T04): HTML report generator` |
-| T05 | cli.py — CLI entry point | Pending | 30 min | — | 3/3 | — | — |
+| T05 | cli.py — CLI entry point | Complete | 30 min | ~15 min | 3/3 | NONE | `feat(T05): CLI entry point` |
 | T06 | Final review and polish | Pending | 130 min | — | 29/29 | — | — |
 
 ---
@@ -27,7 +27,7 @@
 | T02 | profiler.py — per-column profiling | 40 min | Pending |
 | T03 | quality.py — composite quality score | 30 min | Complete |
 | T04 | report.py — HTML report generation | 40 min | Complete |
-| T05 | cli.py — CLI entry point | 30 min | Pending |
+| T05 | cli.py — CLI entry point | 30 min | Complete |
 | T06 | Final review and polish | 25 min | Pending |
 
 ---
@@ -276,13 +276,13 @@ Report written to: reports/<stem>.html | Rows: N | Columns: N | Quality Score: X
 - `1` — failure (any error)
 
 **Acceptance criteria:**
-- [ ] `cli.py` provides `main()` callable via `python -m datalens <path>` or the `pyproject.toml` scripts entry
-- [ ] Accepts a single positional argument: path to a CSV file
-- [ ] Runs the full pipeline: load → profile → score → duplicate count → report
-- [ ] Prints a one-line summary to stdout: report path, row count, column count, quality score
-- [ ] Writes the HTML report to `reports/<stem>.html`
-- [ ] Exits with code 0 on success, non-zero on failure
-- [ ] All 3 `test_cli.py` tests pass (2 unit + 1 integration)
+- [x] `cli.py` provides `main()` callable via `python -m datalens <path>` or the `pyproject.toml` scripts entry
+- [x] Accepts a single positional argument: path to a CSV file
+- [x] Runs the full pipeline: load → profile → score → duplicate count → report
+- [x] Prints a one-line summary to stdout: report path, row count, column count, quality score
+- [x] Writes the HTML report to `reports/<stem>.html`
+- [x] Exits with code 0 on success, non-zero on failure
+- [x] All 3 `test_cli.py` tests pass (2 unit + 1 integration)
 
 **Estimated time:** 30 minutes
 
