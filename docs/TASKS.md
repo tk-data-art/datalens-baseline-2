@@ -9,7 +9,7 @@
 | ID | Title | Status | Est. | Actual | Tests | Context Drift | Git Commit |
 |---|---|---|---|---|---|---|---|
 | T00 | Project Operating System | Complete | 110 min | — | N/A | NONE | — |
-| T01 | loader.py — CSV reading and parsing | Pending | 35 min | — | 7/7 | — | — |
+| T01 | loader.py — CSV reading and parsing | Complete | 35 min | ~20 min | 7/7 | NONE | `feat(T01): CSV loader module` |
 | T02 | profiler.py — per-column profiling | Pending | 40 min | — | 5/5 | — | — |
 | T03 | quality.py — composite quality score | Pending | 30 min | — | 9/9 | — | — |
 | T04 | report.py — HTML report generation | Pending | 40 min | — | 5/5 | — | — |
@@ -72,13 +72,15 @@
 **Dependencies:** T00 complete
 
 **Acceptance criteria:**
-- [ ] `loader.py` has a public function `load_csv(path: str)` that returns `(rows, column_names, row_count)`
-- [ ] Returns `rows` as `list[dict]`, `column_names` as `list[str]`, `row_count` as `int`
-- [ ] Correctly parses all 5 fixture files without error
-- [ ] Handles quoted fields with embedded commas
-- [ ] Handles empty CSV (header only, 0 data rows) without crashing
-- [ ] Raises a clear error for a file that does not exist
-- [ ] All 4 `test_loader.py` tests pass
+- [x] `loader.py` has a public function `load_csv(path: str)` that returns `(rows, column_names, row_count)`
+- [x] Returns `rows` as `list[dict]`, `column_names` as `list[str]`, `row_count` as `int`
+- [x] Correctly parses all 5 fixture files without error
+- [x] Handles quoted fields with embedded commas
+- [x] Handles empty CSV (header only, 0 data rows) without crashing
+- [x] Raises a clear error for a file that does not exist
+- [x] All 4 `test_loader.py` tests pass
+
+**Test coverage note:** Acceptance criteria define behavior, not a fixed test count. Baseline 2 provides 7 tests covering all 6 fixtures plus the missing-file case. The "All 4 tests" wording in the original specification is a Baseline 1 historical artifact and does not constrain Baseline 2 test count.
 
 **Estimated time:** 35 minutes
 

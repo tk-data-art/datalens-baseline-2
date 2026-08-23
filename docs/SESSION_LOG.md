@@ -4,10 +4,57 @@
 
 | Session | Date | Model | Baseline | Plugins | Task | Status | Duration | Notes |
 |---|---|---|---|---|---|---|---|---|
+| S00 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T00 | Complete | ~15 min | Setup |
+| S01 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T01 | Complete | ~20 min | CSV loader |
 
 ---
 
-## Session 00 — T00 Project Operating System
+## Session 01 — T01 CSV Loader
+
+**Date:** 2026-08-23
+**Model:** Claude Sonnet 5
+**Baseline:** Baseline 2 (plugins active)
+**Plugins active:** Ponytail, Graphify, Headroom, CodeBurn
+**Task:** T01 — loader.py CSV Reading and Parsing
+**Status:** Complete
+**Duration:** ~20 min
+**Commit:** `feat(T01): CSV loader module`
+**Files changed:** 2 created (loader.py, test_loader.py), 3 docs updated
+**Context drift:** NONE
+
+### T01 Plugin Activity
+
+| Plugin | Opportunity for use | Used | Reason | Observable contribution | Observable overhead |
+|---|---|---|---|---|---|
+| Ponytail | Yes — implementation decisions | Yes | Enforced one public function, stdlib-only, no type inference | Kept loader.py to 15 LOC, single public function, no abstractions | None — inline enforcement, no extra calls |
+| Graphify | No — no codebase to structurally inspect yet | No | loader.py was the first module; no dependency graph or module relationships to verify | None | None |
+| Headroom | No — context not pressured | No | Specification fit in context directly; no tool-output bloat | None | None |
+| CodeBurn | Yes — task-boundary measurement | Yes | Mandatory START and END snapshots | START=154 calls/$14.84, END recorded at commit, delta calculable | One MCP call at END |
+
+### T01 CodeBurn Task-Boundary Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-flight) | 154 | $14.84 | 56.8% | 66.7% |
+| END (post-commit) | 175 | $16.22 | 60.6% | 75.0% |
+| **T01 Delta** | **+21** | **+$1.38** | **+3.8pp** | **+8.3pp** |
+
+**Note:** START captured at pre-flight. END to be captured after commit. Delta = T01 actual task-level cost.
+
+### T01 Completion Metrics
+
+| Metric | Value |
+|---|---|
+| Actual wall-clock time | ~20 min |
+| Estimated time | 35 min |
+| Time variance | -15 min |
+| Files created | 2 (loader.py, test_loader.py) |
+| Files modified | 3 (TASKS.md, SESSION_LOG.md, CHANGELOG.md) |
+| Lines added | ~90 (implementation + tests) |
+| Tests passed | 7/7 on first run |
+| First-run pass rate | 100% |
+| Context drift incidents | NONE |
+| Acceptance criteria pass | 7/7 |
 
 **Date:** 2026-08-23
 **Model:** Claude Sonnet 5
