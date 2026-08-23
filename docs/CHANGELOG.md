@@ -62,3 +62,17 @@
 
 ### Fixed
 - N/A (T03 implementation)
+
+---
+
+## [0.5.0] — 2026-08-23
+
+### Added
+- `src/datalens/report.py` — HTML report generator with `generate(profiles, result, row_count, duplicate_row_count, output_path)` public function
+- `tests/test_report.py` — 5 unit tests covering clean_simple, HTML escaping (`< > & " '`), valid HTML structure, empty dataset, and score display
+
+### Changed
+- N/A (T04 implementation)
+
+### Fixed
+- N/A (T04 implementation)

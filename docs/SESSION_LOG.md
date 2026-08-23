@@ -230,3 +230,64 @@
 | First-run pass rate | 9/9 (1 test assertion corrected during implementation after fixture inspection) |
 | Context drift incidents | NONE |
 | Acceptance criteria pass | 8/8 |
+
+---
+
+## Session 04 — T04 report.py HTML Report Generation
+
+**Date:** 2026-08-23
+**Model:** Claude Sonnet 5
+**Baseline:** Baseline 2 (plugins active)
+**Plugins active:** Ponytail, Graphify, Headroom, CodeBurn
+**Task:** T04 — report.py HTML Report Generation
+**Status:** Complete
+**Duration:** ~15 min
+**Commit:** `feat(T04): HTML report generator`
+**Files changed:** 2 created (report.py, test_report.py), 3 docs updated
+**Context drift:** NONE
+
+### T04 Plugin Activity
+
+| Plugin | Opportunity for use | Used | Reason | Observable contribution | Observable overhead |
+|---|---|---|---|---|---|
+| Ponytail | Yes — template string size, function decomposition, CSS organization | No | Single-function design is inherent to the spec (one `generate()`); no tool invocation | None | None |
+| Graphify | Yes — first module with non-stdlib dependency (jinja2) | Yes | Post-implementation import-structure inspection performed | Confirmed report.py imports only `pathlib` (stdlib) + `jinja2` (declared dependency). No `datalens.*` imports. One Python AST inspection pass. | One Python AST inspection |
+| Headroom | Yes — template string verbosity may cause context pressure | No | Context stayed clear; template is a single string, 5 tests are straightforward | None | None |
+| CodeBurn | Yes — task-boundary measurement | Yes | Mandatory START and END snapshots | START=321 calls/$29.65, END=335 calls/$31.63, delta calculable | Two MCP calls |
+
+### T04 CodeBurn Task-Boundary Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-flight) | 321 | $29.65 | 62.4% | 40.0% |
+| END (post-commit) | 335 | $31.63 | 62.0% | 36.4% |
+| **T04 Delta** | **+14** | **+$1.98** | **-0.4pp** | **-3.6pp** |
+
+### T04 Completion Metrics
+
+| Metric | Value |
+|---|---|
+| Actual wall-clock time | ~15 min |
+| Estimated time | 40 min |
+| Time variance | -25 min |
+| Files created | 2 (report.py, test_report.py) |
+| Files modified | 3 (TASKS.md, SESSION_LOG.md, CHANGELOG.md) |
+| Lines added | ~213 |
+| Tests passed | 5/5 |
+| First-run pass rate | 5/5 (1 test assertion corrected after verifying actual Jinja2 escaping behavior: `"` → `&#34;`, `'` → `&#39;`, not `&quot;`/`&#x27;`) |
+| Context drift incidents | NONE |
+| Acceptance criteria pass | 6/6 |
+
+**Test correction:**
+- `test_generate_html_escaping`: Assertion corrected from `&quot;`/`&#x27;` to `&#34;`/`&#39;` to match Jinja2's actual escape sequences
+
+### Cumulative CodeBurn Accounting (T01 → T04)
+
+| Phase | Delta (calls) | Delta (cost) |
+|---|---|---|
+| T01 (loader.py) | +21 | +$1.38 |
+| T02 (profiler.py) | +28 | +$2.25 |
+| T02 Corrective | +23 | +$2.16 |
+| T03 (quality.py) | +30 | +$3.24 |
+| T04 (report.py) | +14 | +$1.98 |
+| **Cumulative** | **+116** | **+$11.01** |

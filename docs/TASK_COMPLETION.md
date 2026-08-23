@@ -695,6 +695,171 @@ pytest -v
 
 ---
 
+## Task Completion Report — T04: report.py HTML Report Generation
+
+**Generated:** 2026-08-23
+**Baseline:** Baseline 2 (Claude Code with Graphify, Ponytail, Headroom, CodeBurn)
+**Dependencies:** T03 complete (`feat(T03): quality score module`, `65098b1`; corrective `a912545`)
+
+---
+
+### 1. Implementation Summary
+
+`report.py` is an I/O module with one public function:
+
+```python
+def generate(profiles, result, row_count, duplicate_row_count, output_path) -> None
+```
+
+The module imports `pathlib` (stdlib) and `jinja2` (declared dependency). No imports from `datalens.*` modules. No profiling, scoring, or CSV parsing.
+
+**Template:** Inline Jinja2 string, `Environment(autoescape=True)`. No separate template file.
+
+**Output:** Self-contained HTML file written to `output_path`. Parent directories created automatically via `pathlib.Path.mkdir(parents=True, exist_ok=True)`.
+
+---
+
+### 2. Files Changed
+
+| File | Action | Description |
+|---|---|---|
+| `src/datalens/report.py` | Created | `generate()` implementation (97 LOC including template) |
+| `tests/test_report.py` | Created | 5 unit tests (117 LOC) |
+| `docs/TASKS.md` | Modified | T04 marked complete, acceptance criteria checked |
+| `docs/SESSION_LOG.md` | Modified | S04 entry with plugin activity and CodeBurn delta |
+| `docs/CHANGELOG.md` | Modified | v0.5.0 entry |
+| `docs/TASK_COMPLETION.md` | Modified | This report appended |
+
+---
+
+### 3. Test Results
+
+```bash
+pytest tests/test_report.py -v
+# 5 passed in 0.03s
+
+pytest -v
+# 30 passed in 0.04s (no regressions)
+```
+
+| Test | Status | Notes |
+|---|---|---|
+| `test_generate_clean_simple` | PASS | All 10 required sections present |
+| `test_generate_html_escaping` | PASS | `< > & " '` all escaped correctly |
+| `test_generate_valid_html` | PASS | DOCTYPE, html, head, body, closing tags |
+| `test_generate_empty_dataset` | PASS | row_count=0, column_count=N, score=0.0 |
+| `test_generate_score_display` | PASS | "Quality Score: 85.5 / 100" format |
+
+**First-run pass rate: 4/5** — 1 test assertion corrected after verifying actual Jinja2 escape sequences (`"` → `&#34;`, `'` → `&#39;`, not `&quot;`/`&#x27;`).
+
+---
+
+### 4. Edge Case Verification
+
+| Edge case | Result | Verified |
+|---|---|---|
+| `edge_empty.csv` (0 rows) | row_count=0, column_count=N, score=0.0 | YES |
+| HTML special chars in column names | `< > & " '` all escaped, no injection | YES |
+| `duplicate_row_count=0` | "Duplicate rows: 0" displayed | YES |
+| No numeric columns | Numeric Statistics section omitted gracefully | YES (via `{% if numeric_profiles %}`) |
+| Score display format | "Quality Score: X / 100" | YES |
+
+---
+
+### 5. Plugin Experiment
+
+#### Ponytail
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — template string size, function decomposition, CSS organization |
+| Used? | No |
+| Reason | Single-function design is inherent to the spec (one `generate()`). No tool invocation. |
+| Observable contribution | report.py has 1 public function (`generate`), inline template string, minimal CSS. This is attributable to the specification, not tool enforcement. | None |
+
+#### Graphify
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — first module with non-stdlib dependency (jinja2) |
+| Used? | Yes |
+| Reason | Post-implementation import-structure inspection |
+| Observable contribution | Confirmed report.py imports only `pathlib` (stdlib) + `jinja2` (declared dependency). No `datalens.*` imports. AST inspection via Python `ast` module. | One Python AST inspection pass |
+| Limitation | Graphify inspects import structure only. It does not verify data flow (profiles/result flow via plain dicts). |
+
+#### Headroom
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — template string verbosity may cause context pressure |
+| Used? | No |
+| Reason | Context stayed clear. Template is a single string (~90 lines). 5 tests are straightforward assertions. |
+| Observable contribution | None | None |
+
+#### CodeBurn
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — task-boundary measurement |
+| Used? | Yes |
+| Reason | Mandatory START and END snapshots |
+| Observable contribution | START=321 calls/$29.65, END=335 calls/$31.63, delta calculable | Two MCP calls |
+
+### T04 CodeBurn Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-flight) | 321 | $29.65 | 62.4% | 40.0% |
+| END (post-commit) | 335 | $31.63 | 62.0% | 36.4% |
+| **T04 Delta** | **+14** | **+$1.98** | **-0.4pp** | **-3.6pp** |
+
+---
+
+### 6. Cumulative CodeBurn Accounting (T01 → T04)
+
+| Phase | Delta (calls) | Delta (cost) |
+|---|---|---|
+| T01 (loader.py) | +21 | +$1.38 |
+| T02 (profiler.py) | +28 | +$2.25 |
+| T02 Corrective | +23 | +$2.16 |
+| T03 (quality.py) | +30 | +$3.24 |
+| T04 (report.py) | +14 | +$1.98 |
+| **Cumulative** | **+116** | **+$11.01** |
+
+---
+
+### 7. Scope Verification
+
+- `src/datalens/report.py`: Created (97 LOC)
+- `tests/test_report.py`: Created (117 LOC)
+- `docs/TASKS.md`, `docs/SESSION_LOG.md`, `docs/CHANGELOG.md`, `docs/TASK_COMPLETION.md`: updated
+- `src/datalens/loader.py`: **unchanged**
+- `src/datalens/profiler.py`: **unchanged**
+- `src/datalens/quality.py`: **unchanged**
+- `tests/test_loader.py`: **unchanged**
+- `tests/test_profiler.py`: **unchanged**
+- `tests/test_quality.py`: **unchanged**
+- `tests/fixtures/*`: **unchanged**
+- `pyproject.toml`: **unchanged** (jinja2 already declared)
+- No other files modified
+
+---
+
+### 8. Verification Summary
+
+- All 6 acceptance criteria met
+- 5/5 report tests pass, 30/30 full suite
+- HTML escaping verified for `< > & " '`
+- No forbidden datalens imports (Graphify AST inspection)
+- No new dependencies (jinja2 already declared in pyproject.toml)
+- Context drift: NONE
+
+---
+
+*This report was generated as part of the DataLens experimental protocol. See `docs/EXPERIMENT.md` for details.*
+
+---
+
 ## Task Completion Report — T03: quality.py Composite Quality Score
 
 **Generated:** 2026-08-23
@@ -867,6 +1032,171 @@ pytest -v
 - Formula verified on all locked edge cases (all-missing, single-row missing, single-row complete, empty dataset)
 - No forbidden datalens imports (confirmed via AST inspection in Bash)
 - No new dependencies
+- Context drift: NONE
+
+---
+
+*This report was generated as part of the DataLens experimental protocol. See `docs/EXPERIMENT.md` for details.*
+
+---
+
+## Task Completion Report — T04: report.py HTML Report Generation
+
+**Generated:** 2026-08-23
+**Baseline:** Baseline 2 (Claude Code with Graphify, Ponytail, Headroom, CodeBurn)
+**Dependencies:** T03 complete (`feat(T03): quality score module`, `65098b1`; corrective `a912545`)
+
+---
+
+### 1. Implementation Summary
+
+`report.py` is an I/O module with one public function:
+
+```python
+def generate(profiles, result, row_count, duplicate_row_count, output_path) -> None
+```
+
+The module imports `pathlib` (stdlib) and `jinja2` (declared dependency). No imports from `datalens.*` modules. No profiling, scoring, or CSV parsing.
+
+**Template:** Inline Jinja2 string, `Environment(autoescape=True)`. No separate template file.
+
+**Output:** Self-contained HTML file written to `output_path`. Parent directories created automatically via `pathlib.Path.mkdir(parents=True, exist_ok=True)`.
+
+---
+
+### 2. Files Changed
+
+| File | Action | Description |
+|---|---|---|
+| `src/datalens/report.py` | Created | `generate()` implementation (97 LOC including template) |
+| `tests/test_report.py` | Created | 5 unit tests (117 LOC) |
+| `docs/TASKS.md` | Modified | T04 marked complete, acceptance criteria checked |
+| `docs/SESSION_LOG.md` | Modified | S04 entry with plugin activity and CodeBurn delta |
+| `docs/CHANGELOG.md` | Modified | v0.5.0 entry |
+| `docs/TASK_COMPLETION.md` | Modified | This report appended |
+
+---
+
+### 3. Test Results
+
+```bash
+pytest tests/test_report.py -v
+# 5 passed in 0.03s
+
+pytest -v
+# 30 passed in 0.04s (no regressions)
+```
+
+| Test | Status | Notes |
+|---|---|---|
+| `test_generate_clean_simple` | PASS | All 10 required sections present |
+| `test_generate_html_escaping` | PASS | `< > & " '` all escaped correctly |
+| `test_generate_valid_html` | PASS | DOCTYPE, html, head, body, closing tags |
+| `test_generate_empty_dataset` | PASS | row_count=0, column_count=N, score=0.0 |
+| `test_generate_score_display` | PASS | "Quality Score: 85.5 / 100" format |
+
+**First-run pass rate: 4/5** — 1 test assertion corrected after verifying actual Jinja2 escape sequences (`"` → `&#34;`, `'` → `&#39;`, not `&quot;`/`&#x27;`).
+
+---
+
+### 4. Edge Case Verification
+
+| Edge case | Result | Verified |
+|---|---|---|
+| `edge_empty.csv` (0 rows) | row_count=0, column_count=N, score=0.0 | YES |
+| HTML special chars in column names | `< > & " '` all escaped, no injection | YES |
+| `duplicate_row_count=0` | "Duplicate rows: 0" displayed | YES |
+| No numeric columns | Numeric Statistics section omitted gracefully | YES (via `{% if numeric_profiles %}`) |
+| Score display format | "Quality Score: X / 100" | YES |
+
+---
+
+### 5. Plugin Experiment
+
+#### Ponytail
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — template string size, function decomposition, CSS organization |
+| Used? | No |
+| Reason | Single-function design is inherent to the spec (one `generate()`). No tool invocation. |
+| Observable contribution | report.py has 1 public function (`generate`), inline template string, minimal CSS. This is attributable to the specification, not tool enforcement. | None |
+
+#### Graphify
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — first module with non-stdlib dependency (jinja2) |
+| Used? | Yes |
+| Reason | Post-implementation import-structure inspection |
+| Observable contribution | Confirmed report.py imports only `pathlib` (stdlib) + `jinja2` (declared dependency). No `datalens.*` imports. AST inspection via Python `ast` module. | One Python AST inspection pass |
+| Limitation | Graphify inspects import structure only. It does not verify data flow (profiles/result flow via plain dicts). |
+
+#### Headroom
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — template string verbosity may cause context pressure |
+| Used? | No |
+| Reason | Context stayed clear. Template is a single string (~90 lines). 5 tests are straightforward assertions. |
+| Observable contribution | None | None |
+
+#### CodeBurn
+
+| Question | Answer |
+|---|---|
+| Opportunity? | Yes — task-boundary measurement |
+| Used? | Yes |
+| Reason | Mandatory START and END snapshots |
+| Observable contribution | START=321 calls/$29.65, END=335 calls/$31.63, delta calculable | Two MCP calls |
+
+### T04 CodeBurn Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-flight) | 321 | $29.65 | 62.4% | 40.0% |
+| END (post-commit) | 335 | $31.63 | 62.0% | 36.4% |
+| **T04 Delta** | **+14** | **+$1.98** | **-0.4pp** | **-3.6pp** |
+
+---
+
+### 6. Cumulative CodeBurn Accounting (T01 → T04)
+
+| Phase | Delta (calls) | Delta (cost) |
+|---|---|---|
+| T01 (loader.py) | +21 | +$1.38 |
+| T02 (profiler.py) | +28 | +$2.25 |
+| T02 Corrective | +23 | +$2.16 |
+| T03 (quality.py) | +30 | +$3.24 |
+| T04 (report.py) | +14 | +$1.98 |
+| **Cumulative** | **+116** | **+$11.01** |
+
+---
+
+### 7. Scope Verification
+
+- `src/datalens/report.py`: Created (97 LOC)
+- `tests/test_report.py`: Created (117 LOC)
+- `docs/TASKS.md`, `docs/SESSION_LOG.md`, `docs/CHANGELOG.md`, `docs/TASK_COMPLETION.md`: updated
+- `src/datalens/loader.py`: **unchanged**
+- `src/datalens/profiler.py`: **unchanged**
+- `src/datalens/quality.py`: **unchanged**
+- `tests/test_loader.py`: **unchanged**
+- `tests/test_profiler.py`: **unchanged**
+- `tests/test_quality.py`: **unchanged**
+- `tests/fixtures/*`: **unchanged**
+- `pyproject.toml`: **unchanged** (jinja2 already declared)
+- No other files modified
+
+---
+
+### 8. Verification Summary
+
+- All 6 acceptance criteria met
+- 5/5 report tests pass, 30/30 full suite
+- HTML escaping verified for `< > & " '`
+- No forbidden datalens imports (Graphify AST inspection)
+- No new dependencies (jinja2 already declared in pyproject.toml)
 - Context drift: NONE
 
 ---

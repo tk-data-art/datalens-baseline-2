@@ -12,7 +12,7 @@
 | T01 | loader.py — CSV reading and parsing | Complete | 35 min | ~20 min | 7/7 | NONE | `feat(T01): CSV loader module` |
 | T02 | profiler.py — per-column profiling | Corrective Pass | 40 min | ~20 min | 9/9 | NONE | `feat(T02): column profiler module` |
 | T03 | quality.py — composite quality score | Complete | 30 min | ~15 min | 9/9 | NONE | `feat(T03): quality score module` |
-| T04 | report.py — HTML report generation | Pending | 40 min | — | 5/5 | — | — |
+| T04 | report.py — HTML report generation | Complete | 40 min | ~15 min | 5/5 | NONE | `feat(T04): HTML report generator` |
 | T05 | cli.py — CLI entry point | Pending | 30 min | — | 3/3 | — | — |
 | T06 | Final review and polish | Pending | 130 min | — | 29/29 | — | — |
 
@@ -26,7 +26,7 @@
 | T01 | loader.py — CSV reading and parsing | 35 min | Pending |
 | T02 | profiler.py — per-column profiling | 40 min | Pending |
 | T03 | quality.py — composite quality score | 30 min | Complete |
-| T04 | report.py — HTML report generation | 40 min | Pending |
+| T04 | report.py — HTML report generation | 40 min | Complete |
 | T05 | cli.py — CLI entry point | 30 min | Pending |
 | T06 | Final review and polish | 25 min | Pending |
 
@@ -218,12 +218,12 @@ def generate(
 - CSV-derived values with HTML-special characters must be escaped
 
 **Acceptance criteria:**
-- [ ] `report.py` has a public function `generate(profiles, result, row_count, duplicate_row_count, output_path)` that writes an HTML file
-- [ ] Output file exists at the specified path after the function returns
-- [ ] HTML contains all required sections
-- [ ] HTML is valid and readable in a browser (DOCTYPE, proper HTML structure, inline CSS)
-- [ ] HTML-escapes CSV-derived values (test with `<`, `>`, `&`, `"` characters)
-- [ ] All 5 `test_report.py` tests pass
+- [x] `report.py` has a public function `generate(profiles, result, row_count, duplicate_row_count, output_path)` that writes an HTML file
+- [x] Output file exists at the specified path after the function returns
+- [x] HTML contains all required sections
+- [x] HTML is valid and readable in a browser (DOCTYPE, proper HTML structure, inline CSS)
+- [x] HTML-escapes CSV-derived values (test with `<`, `>`, `&`, `"`, `'` characters)
+- [x] All 5 `test_report.py` tests pass
 
 **Estimated time:** 40 minutes
 
