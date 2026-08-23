@@ -11,7 +11,7 @@
 | T00 | Project Operating System | Complete | 110 min | — | N/A | NONE | — |
 | T01 | loader.py — CSV reading and parsing | Complete | 35 min | ~20 min | 7/7 | NONE | `feat(T01): CSV loader module` |
 | T02 | profiler.py — per-column profiling | Corrective Pass | 40 min | ~20 min | 9/9 | NONE | `feat(T02): column profiler module` |
-| T03 | quality.py — composite quality score | Pending | 30 min | — | 9/9 | — | — |
+| T03 | quality.py — composite quality score | Complete | 30 min | ~15 min | 9/9 | NONE | `feat(T03): quality score module` |
 | T04 | report.py — HTML report generation | Pending | 40 min | — | 5/5 | — | — |
 | T05 | cli.py — CLI entry point | Pending | 30 min | — | 3/3 | — | — |
 | T06 | Final review and polish | Pending | 130 min | — | 29/29 | — | — |
@@ -25,7 +25,7 @@
 | T00 | Project Operating System | 110 min | Complete |
 | T01 | loader.py — CSV reading and parsing | 35 min | Pending |
 | T02 | profiler.py — per-column profiling | 40 min | Pending |
-| T03 | quality.py — composite quality score | 30 min | Pending |
+| T03 | quality.py — composite quality score | 30 min | Complete |
 | T04 | report.py — HTML report generation | 40 min | Pending |
 | T05 | cli.py — CLI entry point | 30 min | Pending |
 | T06 | Final review and polish | 25 min | Pending |
@@ -156,14 +156,14 @@ composite_score =
 **API:** `compute_score(profiles: list[dict], total_rows: int) -> dict`
 
 **Acceptance criteria:**
-- [ ] `quality.py` has a public function `compute_score(profiles, total_rows)` returning `dict`
-- [ ] Returned dict has keys `composite_score` (float 0–100) and `column_scores` (list of dicts with `name` and `score`)
-- [ ] Composite score is a float in range [0, 100]
-- [ ] A completely clean dataset (clean_simple.csv) scores >= 90
-- [ ] A dataset containing missing values scores lower than an otherwise equivalent complete dataset
-- [ ] Score computation is deterministic (same input → same output)
-- [ ] Edge case: empty dataset (total_rows=0) returns composite_score=0.0
-- [ ] All 9 `test_quality.py` tests pass
+- [x] `quality.py` has a public function `compute_score(profiles, total_rows)` returning `dict`
+- [x] Returned dict has keys `composite_score` (float 0–100) and `column_scores` (list of dicts with `name` and `score`)
+- [x] Composite score is a float in range [0, 100]
+- [x] A completely clean dataset (clean_simple.csv) scores >= 90
+- [x] A dataset containing missing values scores lower than an otherwise equivalent complete dataset
+- [x] Score computation is deterministic (same input → same output)
+- [x] Edge case: empty dataset (total_rows=0) returns composite_score=0.0
+- [x] All 9 `test_quality.py` tests pass
 
 **Estimated time:** 30 minutes
 

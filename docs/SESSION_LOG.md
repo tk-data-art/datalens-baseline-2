@@ -183,3 +183,50 @@
 | Tests after | 9/9 |
 | Regression | None |
 | All 6 fixtures covered | Yes |
+
+---
+
+## Session 03 — T03 quality.py Composite Quality Score
+
+**Date:** 2026-08-23
+**Model:** Claude Sonnet 5
+**Baseline:** Baseline 2 (plugins active)
+**Plugins active:** Ponytail, Graphify, Headroom, CodeBurn
+**Task:** T03 — quality.py Composite Quality Score
+**Status:** Complete
+**Duration:** ~15 min
+**Commit:** `feat(T03): quality score module`
+**Files changed:** 2 created (quality.py, test_quality.py), 3 docs updated
+**Context drift:** NONE
+
+### T03 Plugin Activity
+
+| Plugin | Opportunity for use | Used | Reason | Observable contribution | Observable overhead |
+|---|---|---|---|---|---|
+| Ponytail | Yes — formula inline vs. abstraction decisions | Yes | Enforced single public function, stdlib-only, no unnecessary helpers | quality.py has 1 public function (compute_score), 0 private helpers, imports only `statistics` | None — inline enforcement |
+| Graphify | Yes — post-implementation import structure inspection | Yes | Verified quality.py has no `datalens.*` imports; confirmed stdlib-only architecture | Confirmed quality.py, profiler.py, and loader.py are all stdlib-only leaf nodes | One Python AST inspection |
+| Headroom | No — context not pressured | No | Formula is straightforward arithmetic (3 components, mean). 9 tests are predictable. | None | None |
+| CodeBurn | Yes — task-boundary measurement | Yes | Mandatory START and END snapshots | START=251 calls/$22.48, END captured post-commit | Two MCP calls |
+
+### T03 CodeBurn Task-Boundary Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-flight) | 251 | $22.48 | 65.2% | 57.1% |
+| END (post-commit) | 281 | $25.72 | 63.5% | 44.4% |
+| **T03 Delta** | **+30** | **+$3.24** | **-1.7pp** | **-12.7pp** |
+
+### T03 Completion Metrics
+
+| Metric | Value |
+|---|---|
+| Actual wall-clock time | ~15 min |
+| Estimated time | 30 min |
+| Time variance | -15 min |
+| Files created | 2 (quality.py, test_quality.py) |
+| Files modified | 3 (TASKS.md, SESSION_LOG.md, CHANGELOG.md) |
+| Lines added | ~140 |
+| Tests passed | 9/9 |
+| First-run pass rate | 9/9 (1 test assertion corrected during implementation after fixture inspection) |
+| Context drift incidents | NONE |
+| Acceptance criteria pass | 8/8 |

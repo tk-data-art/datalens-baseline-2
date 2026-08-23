@@ -48,3 +48,17 @@
 
 ### Fixed
 - N/A (T02 implementation)
+
+---
+
+## [0.4.0] — 2026-08-23
+
+### Added
+- `src/datalens/quality.py` — quality score module with `compute_score(profiles, total_rows)` public function
+- `tests/test_quality.py` — 9 unit tests covering clean dataset, missing values, mixed types, edge cases, determinism, and all-missing column
+
+### Changed
+- N/A (T03 implementation)
+
+### Fixed
+- N/A (T03 implementation)
