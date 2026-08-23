@@ -43,7 +43,8 @@
 - `tests/test_profiler.py` — 8 unit tests covering all 6 fixtures, all-missing column, std edge cases
 
 ### Changed
-- `tests/test_profiler.py` — replaced placeholder with test functions
+- `src/datalens/profiler.py` — removed dead branch in `_infer_type()` (line 38)
+- `tests/test_profiler.py` — added `test_profile_quoted_commas` for quoted_commas.csv coverage (9 tests total)
 
 ### Fixed
 - N/A (T02 implementation)

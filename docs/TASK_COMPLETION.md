@@ -601,4 +601,94 @@ docs/CHANGELOG.md          |   9 +++++++++
 
 ---
 
+## Corrective Pass Report — T02: Remove Dead Branch + quoted_commas Coverage
+
+**Generated:** 2026-08-23
+**Baseline:** Baseline 2 (Claude Code with Graphify, Ponytail, Headroom, CodeBurn)
+**Preceding task:** T02 (`feat(T02): column profiler module`, commit `2d1d03b`)
+
+---
+
+### 1. Corrections Applied
+
+| # | Issue | Action | Scope |
+|---|---|---|---|
+| 1 | Dead branch in `_infer_type()` — line 38 unreachable `if int_count > 0 and float_count > 0 and string_count == 0: return "float"` | Removed dead branch | Implementation |
+| 2 | `quoted_commas.csv` not tested by any profiler test | Added `test_profile_quoted_commas` — loads via `_load()` helper, passes rows/columns to `profile()`, asserts type, unique_count, missing_count, min, max | Test coverage |
+
+**No other changes made.** loader.py, pyproject.toml, and all other files unchanged.
+
+---
+
+### 2. Files Changed
+
+| File | Action | Description |
+|---|---|---|
+| `src/datalens/profiler.py` | Modified | Removed dead branch (1 line removed) |
+| `tests/test_profiler.py` | Modified | Added `test_profile_quoted_commas` (12 lines added) |
+
+**Documentation files updated:**
+- `docs/TASKS.md` — status changed to Corrective Pass, test count updated to 9
+- `docs/SESSION_LOG.md` — S02a entry added with CodeBurn delta
+- `docs/CHANGELOG.md` — corrections documented under v0.3.0
+
+---
+
+### 3. Test Results
+
+```bash
+pytest tests/test_profiler.py -v
+# 9 passed in 0.02s
+
+pytest -v
+# 16 passed in 0.02s (no regressions)
+```
+
+**All 6 fixtures now covered by profiler tests:**
+
+| Fixture | Test | Status |
+|---|---|---|
+| `clean_simple.csv` | `test_profile_clean_simple` | PASS |
+| `missing_values.csv` | `test_profile_missing_values` | PASS |
+| `mixed_types.csv` | `test_profile_mixed_types` | PASS |
+| `duplicates.csv` | `test_profile_duplicates` | PASS |
+| `edge_empty.csv` | `test_profile_edge_empty` | PASS |
+| `quoted_commas.csv` | `test_profile_quoted_commas` | PASS (added in corrective pass) |
+
+---
+
+### 4. CodeBurn Delta
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (end of T02) | 213 | $19.28 | 65.8% | 40.0% |
+| END (post-commit) | 236 | $21.44 | 65.5% | 50.0% |
+| **Corrective Delta** | **+23** | **+$2.16** | **-0.3pp** | **+10.0pp** |
+
+---
+
+### 5. Scope Verification
+
+- `src/datalens/profiler.py`: 1 line removed (dead branch)
+- `tests/test_profiler.py`: 12 lines added (new test)
+- `docs/TASKS.md`, `docs/SESSION_LOG.md`, `docs/CHANGELOG.md`: updated
+- `src/datalens/loader.py`: **unchanged**
+- `tests/fixtures/*`: **unchanged**
+- `pyproject.toml`: **unchanged**
+- No other files modified
+
+---
+
+### 6. Verification Summary
+
+- All 18 implementation contract requirements still pass
+- Dead branch removed — no behavioral change
+- `quoted_commas.csv` fixture now has profiler test coverage
+- All 9 profiler tests pass, full suite 16/16
+- No regressions
+- No new dependencies
+- Context drift: NONE
+
+---
+
 *This report was generated as part of the DataLens experimental protocol. See `docs/EXPERIMENT.md` for details.*

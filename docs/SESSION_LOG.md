@@ -7,6 +7,7 @@
 | S00 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T00 | Complete | ~15 min | Setup |
 | S01 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T01 | Complete | ~20 min | CSV loader |
 | S02 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T02 | Complete | ~20 min | Column profiler |
+| S02a | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T02 | Corrective Pass | ~5 min | Remove dead branch, quoted_commas coverage |
 
 ---
 
@@ -143,3 +144,42 @@
 **Test corrections:**
 - `test_profile_missing_values`: salary missing_count corrected from 2→1, unique_count from 4→5 (fixture data has 1 empty salary field, 5 distinct non-empty values)
 - Both corrections were test assertion errors (incorrect expected values), not implementation bugs
+
+---
+
+## Session 02a — T02 Corrective Pass
+
+**Date:** 2026-08-23
+**Model:** Claude Sonnet 5
+**Baseline:** Baseline 2 (plugins active)
+**Plugins active:** Ponytail, Graphify, Headroom, CodeBurn
+**Task:** T02 Corrective Pass — Remove dead branch, quoted_commas coverage
+**Status:** Complete
+**Duration:** ~5 min
+**Commit:** `fix(T02): tighten profiler coverage and remove dead branch`
+**Files changed:** 2 modified (profiler.py, test_profiler.py), docs updates pending
+**Context drift:** NONE
+
+### Corrections Applied
+
+| # | Issue | Action | Scope |
+|---|---|---|---|
+| 1 | Dead branch in `_infer_type()` line 38 | Removed unreachable `if` block | Implementation |
+| 2 | `quoted_commas.csv` not tested by profiler | Added `test_profile_quoted_commas` test | Test coverage |
+
+### T02a CodeBurn Task-Boundary Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-correction) | 213 | $19.28 | 65.8% | 40.0% |
+| END (post-commit) | 236 | $21.44 | 65.5% | 50.0% |
+| **T02a Delta** | **+23** | **+$2.16** | **-0.3pp** | **+10.0pp** |
+
+### T02a Completion Metrics
+
+| Metric | Value |
+|---|---|
+| Tests before | 8/8 |
+| Tests after | 9/9 |
+| Regression | None |
+| All 6 fixtures covered | Yes |

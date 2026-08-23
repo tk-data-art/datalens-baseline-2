@@ -10,7 +10,7 @@
 |---|---|---|---|---|---|---|---|
 | T00 | Project Operating System | Complete | 110 min | — | N/A | NONE | — |
 | T01 | loader.py — CSV reading and parsing | Complete | 35 min | ~20 min | 7/7 | NONE | `feat(T01): CSV loader module` |
-| T02 | profiler.py — per-column profiling | Complete | 40 min | ~20 min | 8/8 | NONE | `feat(T02): column profiler module` |
+| T02 | profiler.py — per-column profiling | Corrective Pass | 40 min | ~20 min | 9/9 | NONE | `feat(T02): column profiler module` |
 | T03 | quality.py — composite quality score | Pending | 30 min | — | 9/9 | — | — |
 | T04 | report.py — HTML report generation | Pending | 40 min | — | 5/5 | — | — |
 | T05 | cli.py — CLI entry point | Pending | 30 min | — | 3/3 | — | — |
@@ -106,7 +106,7 @@
 - [x] Numeric columns include: `min`, `max`, `mean`, `median`, `std`
 - [x] Correctly profiles all 6 fixture files
 - [x] Handles empty columns (all missing) without crashing
-- [x] All 5 `test_profiler.py` tests pass
+- [x] All 9 `test_profiler.py` tests pass (corrective pass)
 
 **Estimated time:** 40 minutes
 

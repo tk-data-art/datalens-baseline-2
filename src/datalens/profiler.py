@@ -35,8 +35,6 @@ def _infer_type(values: list[str]) -> str:
         return "integer"
     if (int_count > 0 or float_count > 0) and string_count == 0:
         return "float"
-    if int_count > 0 and float_count > 0 and string_count == 0:
-        return "float"
     if int_count > 0 or float_count > 0:
         return "mixed"
     return "string"

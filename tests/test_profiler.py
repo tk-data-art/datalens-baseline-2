@@ -90,6 +90,20 @@ def test_profile_std_single_value():
     assert v["mean"] == 5.0
 
 
+def test_profile_quoted_commas():
+    rows, columns, _ = _load("tests/fixtures/quoted_commas.csv")
+    profiles = profile(rows, columns)
+    assert len(profiles) == 3
+    name = _find(profiles, "name")
+    assert name["type"] == "string"
+    assert name["unique_count"] == 3
+    assert name["missing_count"] == 0
+    value = _find(profiles, "value")
+    assert value["type"] == "integer"
+    assert value["min"] == 45000
+    assert value["max"] == 80000
+
+
 def _load(path):
     from datalens.loader import load_csv
     return load_csv(path)
