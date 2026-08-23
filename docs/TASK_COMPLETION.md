@@ -787,20 +787,20 @@ pytest -v
 | Question | Answer |
 |---|---|
 | Opportunity? | Yes — formula implementation decisions |
-| Used? | Yes |
-| Reason | Enforced single public function, stdlib-only, no unnecessary abstractions |
-| Observable contribution | quality.py has 1 public function (`compute_score`), 0 private helpers, 1 stdlib import (`statistics`). Formula inlined — no helper decomposition. |
-| Observable overhead | None — enforcement was inline during implementation |
+| Used? | No |
+| Reason | No tool invocation; single-function design was made inline |
+| Observable contribution | quality.py has 1 public function (`compute_score`), 0 private helpers, 1 stdlib import (`statistics`). This is attributable to inline design decisions, not tool enforcement. |
+| Observable overhead | None |
 
 #### Graphify
 
 | Question | Answer |
 |---|---|
 | Opportunity? | Yes — post-implementation import structure inspection |
-| Used? | Yes |
-| Reason | Verify quality.py has no forbidden `datalens.*` imports |
-| Observable contribution | Confirmed quality.py, profiler.py, and loader.py are all stdlib-only leaf nodes. Each module uses only stdlib imports. No inter-module datalens imports exist. |
-| Observable overhead | One Python AST inspection pass across 3 modules |
+| Used? | No |
+| Reason | Import structure was inspected via Python AST via Bash, not via Graphify tool |
+| Observable contribution | Confirmed no datalens imports (via AST inspection in Bash). This is attributable to manual AST inspection, not Graphify tool output. |
+| Observable overhead | None — no tool invocation |
 | Limitation | Graphify inspects import structure only. It does not verify data flow (loader → profiler → quality via plain dicts). |
 
 #### Headroom
@@ -837,11 +837,11 @@ pytest -v
 
 | Phase | Delta (calls) | Delta (cost) |
 |---|---|---|
-| T01 (loader.py) | +28 | +$2.25 |
+| T01 (loader.py) | +21 | +$1.38 |
 | T02 (profiler.py) | +28 | +$2.25 |
 | T02 Corrective | +23 | +$2.16 |
 | T03 (quality.py) | +30 | +$3.24 |
-| **Cumulative** | **+109** | **+$9.90** |
+| **Cumulative** | **+102** | **+$9.03** |
 
 ---
 
@@ -865,7 +865,7 @@ pytest -v
 - All 8 acceptance criteria met
 - 9/9 quality tests pass, 25/25 full suite
 - Formula verified on all locked edge cases (all-missing, single-row missing, single-row complete, empty dataset)
-- No forbidden datalens imports (Graphify inspection)
+- No forbidden datalens imports (confirmed via AST inspection in Bash)
 - No new dependencies
 - Context drift: NONE
 

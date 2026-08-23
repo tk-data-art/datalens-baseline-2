@@ -203,8 +203,8 @@
 
 | Plugin | Opportunity for use | Used | Reason | Observable contribution | Observable overhead |
 |---|---|---|---|---|---|
-| Ponytail | Yes — formula inline vs. abstraction decisions | Yes | Enforced single public function, stdlib-only, no unnecessary helpers | quality.py has 1 public function (compute_score), 0 private helpers, imports only `statistics` | None — inline enforcement |
-| Graphify | Yes — post-implementation import structure inspection | Yes | Verified quality.py has no `datalens.*` imports; confirmed stdlib-only architecture | Confirmed quality.py, profiler.py, and loader.py are all stdlib-only leaf nodes | One Python AST inspection |
+| Ponytail | Yes — formula inline vs. abstraction decisions | No | No tool invocation; single-function design was made inline | None | None |
+| Graphify | Yes — post-implementation import structure inspection | No | Import structure was inspected via Python AST via Bash, not via Graphify tool | Confirmed no datalens imports (via AST inspection in Bash) | None — no tool invocation |
 | Headroom | No — context not pressured | No | Formula is straightforward arithmetic (3 components, mean). 9 tests are predictable. | None | None |
 | CodeBurn | Yes — task-boundary measurement | Yes | Mandatory START and END snapshots | START=251 calls/$22.48, END captured post-commit | Two MCP calls |
 
