@@ -8,6 +8,8 @@
 | S01 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T01 | Complete | ~20 min | CSV loader |
 | S02 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T02 | Complete | ~20 min | Column profiler |
 | S02a | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T02 | Corrective Pass | ~5 min | Remove dead branch, quoted_commas coverage |
+| S05 | 2026-08-23 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T05 | Complete | ~15 min | CLI entry point |
+| S06 | 2026-08-24 | Claude Sonnet 5 | Baseline 2 | Pony, Graph, Head, Burn | T06 | Complete | ~60 min | Final review and experiment results |
 
 ---
 
@@ -360,3 +362,82 @@ Graphify was not invoked during implementation. Invoked post-implementation duri
 | T04 (report.py) | +14 | +$1.98 |
 | T05 (cli.py) | +30 | +$4.88 |
 | **Cumulative** | **+146** | **+$15.89** |
+
+---
+
+## Session 06 — T06 Final Review and Experiment Results
+
+**Date:** 2026-08-24
+**Model:** Claude Sonnet 5
+**Baseline:** Baseline 2 (plugins active)
+**Plugins active:** Ponytail, Graphify, Headroom, CodeBurn
+**Task:** T06 — Final Review and Experiment Results
+**Status:** Complete
+**Duration:** ~60 min
+**Commit:** `fix(T06): final review and experiment results`
+**Files created:** docs/EXPERIMENT_RESULTS.md, benchmarks/run_benchmarks.py
+**Files modified:** docs/TASK_COMPLETION.md
+**Context drift:** NONE
+
+### T06 Plugin Activity
+
+| Plugin | Opportunity for use | Used | Reason | Observable contribution | Observable overhead |
+|---|---|---|---|---|---|
+| Ponytail | Yes — final review | No | No tool invocation; no refactoring opportunity | None | None |
+| Graphify | Yes — architecture audit | No | Already invoked post-hoc in T05. No new invocation during T06. | T05 post-hoc result: 82 nodes, 165 links, 10 communities | None |
+| Headroom | Yes — documentation compression | No | Context stayed clear. EXPERIMENT_RESULTS.md is comprehensive but not pressured. | None | None |
+| CodeBurn | Yes — task-boundary measurement | Yes | Mandatory START and END snapshots | START=27 calls/$4.59, END=86 calls/$17.05, delta calculable | Two MCP calls |
+
+### T06 CodeBurn Task-Boundary Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-flight) | 27 | $4.59 | 57.7% | 100% |
+| END (post-commit) | 86 | $17.05 | 61.4% | 100% |
+| **T06 Delta** | **+59** | **+$12.46** | **+3.7pp** | **0pp** |
+
+### T06 Completion Metrics
+
+| Metric | Value |
+|---|---|
+| Actual wall-clock time | ~60 min |
+| Estimated time | 130 min |
+| Time variance | -70 min |
+| Files created | 2 (EXPERIMENT_RESULTS.md, run_benchmarks.py) |
+| Files modified | 1 (TASK_COMPLETION.md) |
+| Lines added | ~700 (EXPERIMENT_RESULTS.md) |
+| Tests passed | 33/33 |
+| First-run pass rate | 33/33 (no regressions) |
+| Context drift incidents | NONE |
+| Acceptance criteria pass | 16/16 |
+
+### T06 Key Results
+
+| Result | Value |
+|---|---|
+| Semantic equivalence (B1 vs B2) | PASS (all 5 fixtures) |
+| Quality score equivalence | MATCH (all 5 fixtures) |
+| Benchmark datasets generated | 4 (10k×20, 100k×20, 1M×20, 100k×100) |
+| Benchmark runs completed | 8/8 (4 datasets × 2 baselines) |
+| Benchmark failures | 0 |
+| LOC B1 | 852 (app: 381, test: 471) |
+| LOC B2 | 713 (app: 280, test: 432) |
+| LOC delta | -139 (-16.3%) |
+| Corrective passes B1 | 2 |
+| Corrective passes B2 | 2 |
+| Context drift B1 | 0 |
+| Context drift B2 | 0 |
+
+### Cumulative CodeBurn Accounting (T00 → T06)
+
+| Phase | Delta (calls) | Delta (cost) |
+|---|---|---|
+| T00 | N/A (baseline) | N/A |
+| T01 | +21 | +$1.38 |
+| T02 | +28 | +$2.25 |
+| T02a | +23 | +$2.16 |
+| T03 | +30 | +$3.24 |
+| T04 | +14 | +$1.98 |
+| T05 | +30 | +$4.88 |
+| T06 | +59 | +$12.46 |
+| **Cumulative** | **+205** | **+$28.35** |
