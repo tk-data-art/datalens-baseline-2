@@ -291,3 +291,72 @@
 | T03 (quality.py) | +30 | +$3.24 |
 | T04 (report.py) | +14 | +$1.98 |
 | **Cumulative** | **+116** | **+$11.01** |
+
+---
+
+## Session 05 — T05 cli.py CLI Entry Point
+
+**Date:** 2026-08-23
+**Model:** Claude Sonnet 5
+**Baseline:** Baseline 2 (plugins active)
+**Plugins active:** Ponytail, Graphify, Headroom, CodeBurn
+**Task:** T05 — cli.py CLI Entry Point
+**Status:** Complete
+**Duration:** ~15 min
+**Commit:** `feat(T05): CLI entry point`
+**Files changed:** 3 created (cli.py, __main__.py, test_cli.py), 4 docs updated
+**Context drift:** NONE
+
+### T05 Plugin Activity
+
+| Plugin | Opportunity for use | Used | Reason | Observable contribution | Observable overhead |
+|---|---|---|---|---|---|
+| Ponytail | Yes — orchestrator with abstraction risk | No | No tool invocation; single-function design is spec-inherent | None | None |
+| Graphify | Yes — first module importing all four pipeline modules | Yes (post-hoc) | Global CLI invoked directly: `graphify . --code-only --no-viz`. Skill's Python module unavailable (`ModuleNotFoundError`). Global CLI at `~/.local/bin/graphify` (v0.9.48) succeeded. | 82 nodes, 165 links, 10 communities. AST extraction confirmed `main()` → `load_csv()`, `profile()`, `compute_score()`, `generate()`. `__main__.py` → `main()`. God nodes: `profile()` (degree=24), `compute_score()` (degree=16), `load_csv()` (degree=14), `main()` (degree=10), `generate()` (degree=9). | One CLI invocation + output inspection |
+| Headroom | Yes — integration tests may be verbose | No | Context stayed clear. cli.py is ~50 LOC. Tests are straightforward assertions. | None | None |
+| CodeBurn | Yes — task-boundary measurement | Yes | Mandatory START and END snapshots | START=361 calls/$35.14, END=391 calls/$40.02, delta calculable | Two MCP calls |
+
+### T05 CodeBurn Task-Boundary Metrics
+
+| Marker | Calls | Cost | Cache hit | One-shot |
+|---|---|---|---|---|
+| START (pre-flight) | 361 | $35.14 | 60.6% | 41.7% |
+| END (post-commit) | 391 | $40.02 | 59.3% | 42.9% |
+| **T05 Delta** | **+30** | **+$4.88** | **-1.3pp** | **+1.2pp** |
+
+### T05 Completion Metrics
+
+| Metric | Value |
+|---|---|
+| Actual wall-clock time | ~15 min |
+| Estimated time | 30 min |
+| Time variance | -15 min |
+| Files created | 3 (cli.py, __main__.py, test_cli.py) |
+| Files modified | 4 (TASKS.md, SESSION_LOG.md, CHANGELOG.md, TASK_COMPLETION.md) |
+| Lines added | ~100 |
+| Tests passed | 3/3 |
+| First-run pass rate | 2/3 (1 test corrected for fixture path resolution after chdir) |
+| Context drift incidents | NONE |
+| Acceptance criteria pass | 7/7 |
+
+### Graphify Post-Hoc Verification
+
+Graphify was not invoked during implementation. Invoked post-implementation during audit rectification:
+- Attempt 1: `graphify .` failed (required LLM API key for 10 doc files)
+- Attempt 2: `graphify . --code-only --no-viz` succeeded
+- Output: `graphify-out/graph.json` (82 nodes, 165 links, 10 communities)
+- Graphify skill's Python module: unavailable (`ModuleNotFoundError`)
+- Global CLI: available at `~/.local/bin/graphify` (v0.9.48, uv-tool)
+- Output files are transient (`graphify-out/`), not committed
+
+### Cumulative CodeBurn Accounting (T01 → T05)
+
+| Phase | Delta (calls) | Delta (cost) |
+|---|---|---|
+| T01 (loader.py) | +21 | +$1.38 |
+| T02 (profiler.py) | +28 | +$2.25 |
+| T02 Corrective | +23 | +$2.16 |
+| T03 (quality.py) | +30 | +$3.24 |
+| T04 (report.py) | +14 | +$1.98 |
+| T05 (cli.py) | +30 | +$4.88 |
+| **Cumulative** | **+146** | **+$15.89** |

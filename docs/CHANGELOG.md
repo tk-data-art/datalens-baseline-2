@@ -76,3 +76,18 @@
 
 ### Fixed
 - N/A (T04 implementation)
+
+---
+
+## [0.6.0] — 2026-08-23
+
+### Added
+- `src/datalens/cli.py` — CLI entry point with `main(argv=None) -> int` public function; orchestrates full pipeline (load → profile → score → duplicate count → report)
+- `src/datalens/__main__.py` — thin module-entry wrapper delegating to `cli.main()`
+- `tests/test_cli.py` — 3 tests (2 unit + 1 integration) covering success path, missing-file error, and end-to-end pipeline
+
+### Changed
+- N/A (T05 implementation)
+
+### Fixed
+- N/A (T05 implementation)

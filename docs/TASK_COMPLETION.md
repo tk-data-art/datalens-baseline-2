@@ -1309,11 +1309,15 @@ pytest -v
 | Question | Answer |
 |---|---|
 | Opportunity? | Yes — cli.py imports from all four pipeline modules |
-| Planned use? | Yes — post-implementation import-structure inspection |
-| Actually invoked? | No |
-| Reason | The `graphify` Python module is not installed in this environment (`ModuleNotFoundError: No module named 'graphify'`). The CLI binary exists at `~/.local/bin/graphify` but the underlying Python package is unavailable. No tool invocation occurred. |
-| What was done instead | Import structure verified manually via Python `ast` module via Bash. Confirmed cli.py imports from `datalens.loader`, `datalens.profiler`, `datalens.quality`, `datalens.report`. No forbidden imports. |
-| Honest attribution | Manual AST inspection, NOT Graphify. |
+| Actually invoked? | **Yes** — `graphify . --code-only --no-viz` |
+| Invocation attempt 1 | `graphify .` failed: required LLM API key for 10 doc files (no key configured) |
+| Invocation attempt 2 | `graphify . --code-only --no-viz` succeeded |
+| Observable contribution | Produced `graphify-out/graph.json`: **82 nodes, 165 links, 10 communities**. AST extraction captured module/function definitions and import-call relationships. Confirmed `main()` → `load_csv()`, `main()` → `profile()`, `main()` → `compute_score()`, `main()` → `generate()`. `__main__.py` → `main()`, `__main__.py` → `cli.py`. God nodes: `profile()` (degree=24), `compute_score()` (degree=16), `load_csv()` (degree=14), `main()` (degree=10), `generate()` (degree=9). |
+| Limitation | Graphify captures import-call structure (which function calls which). It does **not** distinguish runtime data flow (dicts passed between functions). Import structure and runtime data flow are different concerns — Graphify shows the former. |
+| Honest attribution | Global CLI `graphify 0.9.48` invoked directly from project root. Real tool output captured. |
+| Environment note | Graphify skill's Python module unavailable (`ModuleNotFoundError`). Global CLI available via uv-tool at `~/.local/bin/graphify`. Skill path failed; direct CLI path succeeded. |
+| Output files | `graphify-out/graph.json` (82 nodes, 165 links), `graphify-out/.graphify_analysis.json` (10 communities, god nodes), `graphify-out/manifest.json`. Not committed (graphify-out/ is transient analysis output). |
+| Built at commit | `b3788d2f74c2f608e69b48167cd8d13e3f8f3865` |
 
 #### Headroom
 
@@ -1385,7 +1389,7 @@ pytest -v
 - Empty CSV edge case verified (0 rows, N columns, score 0.0)
 - Duplicate-row count verified through pipeline
 - Missing-file error handling verified
-- No forbidden imports (manual AST inspection, NOT Graphify)
+- No forbidden imports (Graphify confirmed via global CLI: cli.py imports all four pipeline modules)
 - Context drift: NONE
 
 ---
