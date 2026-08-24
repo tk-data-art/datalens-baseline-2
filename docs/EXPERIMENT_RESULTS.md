@@ -70,14 +70,15 @@ Baseline 2 was implemented in this repository (`datalens-baseline-2`) with Graph
 
 | Module | Public function | LOC |
 |---|---|---|
+| `__init__.py` | _(package init)_ | 1 |
+| `__main__.py` | _(thin delegation)_ | 5 |
+| `cli.py` | `main(argv=None)` | 51 |
 | `loader.py` | `load_csv(path)` | 16 |
 | `profiler.py` | `profile(rows, columns)` | 89 |
 | `quality.py` | `compute_score(profiles, total_rows)` | 23 |
 | `report.py` | `generate(profiles, result, row_count, duplicate_row_count, output_path)` | 96 |
-| `cli.py` | `main(argv=None)` | 51 |
-| `__main__.py` | _(thin delegation)_ | 5 |
 
-**Total application LOC: 280** (in `src/datalens/`)
+**Total application LOC: 281** (in `src/datalens/`)
 
 ### Test Results
 
@@ -126,7 +127,7 @@ Baseline 2 was implemented in this repository (`datalens-baseline-2`) with Graph
 
 | Category | Baseline 1 | Baseline 2 | Delta |
 |---|---|---|---|
-| Application LOC | 381 | 280 | -101 (-26.5%) |
+| Application LOC | 381 | 281 | -100 (-26.2%) |
 | Test LOC | 471 | 432 | -39 (-8.3%) |
 | Total LOC | 852 | 713 | -139 (-16.3%) |
 
@@ -384,6 +385,8 @@ B2 has a higher test-to-application LOC ratio, indicating relatively more test i
 7. **Floating-point representation:** Minor differences in floating-point representation (e.g., 96.8 vs 96.80000000000001) are observed between baselines. These are representation differences, not algorithmic differences.
 
 8. **Graphify environment limitation:** Graphify's skill-path Python module was unavailable (`ModuleNotFoundError`). The global CLI required `--code-only` flag. This limits Graphify's usability in some environments.
+
+9. **Single-run benchmarks:** Each benchmark dataset was executed once per baseline. Results are observational and may be sensitive to transient system load. Repeating runs could produce different absolute timings, though relative scaling behavior is expected to be stable.
 
 ---
 
