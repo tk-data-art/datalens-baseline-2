@@ -14,7 +14,7 @@
 | T03 | quality.py — composite quality score | Complete | 30 min | ~15 min | 9/9 | NONE | `feat(T03): quality score module` |
 | T04 | report.py — HTML report generation | Complete | 40 min | ~15 min | 5/5 | NONE | `feat(T04): HTML report generator` |
 | T05 | cli.py — CLI entry point | Complete | 30 min | ~15 min | 3/3 | NONE | `feat(T05): CLI entry point` |
-| T06 | Final review and polish | Pending | 130 min | — | 33/33 | — | — |
+| T06 | Final review and polish | Complete | 130 min | ~60 min | 33/33 | NONE | `7d7547d` |
 
 ---
 
@@ -323,16 +323,16 @@ Report written to: reports/<stem>.html | Rows: N | Columns: N | Quality Score: X
 - `docs/EXPERIMENT_RESULTS.md` — Baseline 2 implementation summary, test results, development process, context drift, scalability benchmarks, limitations, environment metadata, Git commit used for benchmarking
 
 **Acceptance criteria:**
-- [ ] Full `pytest` suite passes (33/33)
-- [ ] README.md contains realistic example run with fixture output
-- [ ] docs/CHANGELOG.md has entries for all completed tasks (T00–T05)
-- [ ] docs/SESSION_LOG.md has final entry
-- [ ] No unused imports or dead code visible on review
-- [ ] pyproject.toml installs cleanly (`pip install -e .`)
-- [ ] benchmarks/benchmark_generator.py exists and is functional
-- [ ] benchmarks/data/ is gitignored
-- [ ] All 4 benchmarks run and results recorded
-- [ ] docs/EXPERIMENT_RESULTS.md written with Baseline 2 metrics
+- [x] Full `pytest` suite passes (33/33)
+- [x] README.md contains realistic example run with fixture output
+- [x] docs/CHANGELOG.md has entries for all completed tasks (T00–T05)
+- [x] docs/SESSION_LOG.md has final entry
+- [x] No unused imports or dead code visible on review
+- [x] pyproject.toml installs cleanly (`pip install -e .`)
+- [x] benchmarks/benchmark_generator.py exists and is functional
+- [x] benchmarks/data/ is gitignored
+- [x] All 4 benchmarks run and results recorded
+- [x] docs/EXPERIMENT_RESULTS.md written with Baseline 2 metrics
 
 **Estimated time:** 130 minutes
 

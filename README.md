@@ -1,33 +1,70 @@
 # DataLens
 
-A command-line CSV data-quality analyzer. Reads a CSV file, profiles its contents, computes quality metrics, and produces a self-contained HTML report.
+A small CSV data-quality analyzer. Reads a CSV file, profiles its contents, computes quality metrics, and produces a self-contained HTML report.
 
-This project is Baseline 2 of a controlled experiment comparing Claude Code with and without optimization plugins. See `docs/EXPERIMENT.md` for details.
+## What it does
 
-## Install
+- Row count and column count
+- Detected data types per column
+- Missing-value counts and percentages
+- Duplicate-row count
+- Unique-value counts per column
+- Basic numeric statistics (min, max, mean, median, std)
+- Composite data-quality score (0–100)
+- HTML report with all findings
+
+## Requirements
+
+- Python 3.11 or higher
+
+## Installation
 
 ```bash
 pip install -e .
 ```
 
-## Run
+## Usage
 
 ```bash
-datalens path/to/file.csv
+datalens path/to/your_file.csv
 ```
 
-The report is written to `reports/<input_filename_stem>.html`.
+Or equivalently:
 
-## Requirements
+```bash
+python -m datalens path/to/your_file.csv
+```
 
-- Python 3.11+
-- jinja2 >= 3.1
+The HTML report is written to the `reports/` directory.
+
+## Project status
+
+This project is a Claude Code learning experiment (Baseline 2 — Claude Code with Graphify, Ponytail, Headroom, and CodeBurn plugins available). All application source code and tests are complete.
+
+See `docs/EXPERIMENT.md` for experiment details.
+
+## Example
+
+```bash
+datalens tests/fixtures/clean_simple.csv
+```
+
+Output:
+
+```
+Report written to: reports/clean_simple.html | Rows: 5 | Columns: 5 | Quality Score: 96.0 / 100
+```
+
+The HTML report is written to the `reports/` directory.
 
 ## Experiment
 
-This repository is **Baseline 2** of a controlled experiment comparing Claude Code with and without optimization plugins (Graphify, Ponytail, Headroom, CodeBurn).
+This repository is **Baseline 2** of a controlled experiment comparing Claude Code
+with and without optimization plugins (Graphify, Ponytail, Headroom, CodeBurn).
 
-A separate repository, [datalens-baseline-1](https://github.com/tk-data-art/datalens-baseline-1), implements the same application with the same requirements using the same model (Claude Sonnet 5) without plugins.
+A separate repository, [datalens-baseline-1](https://github.com/tk-data-art/datalens-baseline-1),
+implements the same application with the same requirements using the same model
+(Claude Sonnet 5) without plugins.
 
 ## Evidence
 
