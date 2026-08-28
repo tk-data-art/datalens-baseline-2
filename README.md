@@ -22,3 +22,17 @@ The report is written to `reports/<input_filename_stem>.html`.
 
 - Python 3.11+
 - jinja2 >= 3.1
+
+## Experiment
+
+This repository is **Baseline 2** of a controlled experiment comparing Claude Code with and without optimization plugins (Graphify, Ponytail, Headroom, CodeBurn).
+
+A separate repository, [datalens-baseline-1](https://github.com/tk-data-art/datalens-baseline-1), implements the same application with the same requirements using the same model (Claude Sonnet 5) without plugins.
+
+## Evidence
+
+- [Experiment protocol](docs/EXPERIMENT.md)
+- [Experiment results](docs/EXPERIMENT_RESULTS.md)
+- [Session log](docs/SESSION_LOG.md)
+- [Task definitions](docs/TASKS.md)
+- [Architecture](docs/ARCHITECTURE.md)

@@ -14,7 +14,7 @@
 | T03 | quality.py — composite quality score | Complete | 30 min | ~15 min | 9/9 | NONE | `feat(T03): quality score module` |
 | T04 | report.py — HTML report generation | Complete | 40 min | ~15 min | 5/5 | NONE | `feat(T04): HTML report generator` |
 | T05 | cli.py — CLI entry point | Complete | 30 min | ~15 min | 3/3 | NONE | `feat(T05): CLI entry point` |
-| T06 | Final review and polish | Pending | 130 min | — | 29/29 | — | — |
+| T06 | Final review and polish | Pending | 130 min | — | 33/33 | — | — |
 
 ---
 
@@ -23,12 +23,14 @@
 | ID | Title | Est. | Status |
 |---|---|---|---|
 | T00 | Project Operating System | 110 min | Complete |
-| T01 | loader.py — CSV reading and parsing | 35 min | Pending |
-| T02 | profiler.py — per-column profiling | 40 min | Pending |
+| T00a | Documentation Enhancement | — | Complete |
+| T01 | loader.py — CSV reading and parsing | 35 min | Complete (corrective) |
+| T02 | profiler.py — per-column profiling | 40 min | Complete (corrective) |
+| T02a | profiler.py — dead branch removal, quoted_commas coverage | 5 min | Complete |
 | T03 | quality.py — composite quality score | 30 min | Complete |
 | T04 | report.py — HTML report generation | 40 min | Complete |
 | T05 | cli.py — CLI entry point | 30 min | Complete |
-| T06 | Final review and polish | 25 min | Pending |
+| T06 | Final review and polish | 130 min | Complete |
 
 ---
 
@@ -321,7 +323,7 @@ Report written to: reports/<stem>.html | Rows: N | Columns: N | Quality Score: X
 - `docs/EXPERIMENT_RESULTS.md` — Baseline 2 implementation summary, test results, development process, context drift, scalability benchmarks, limitations, environment metadata, Git commit used for benchmarking
 
 **Acceptance criteria:**
-- [ ] Full `pytest` suite passes (29/29)
+- [ ] Full `pytest` suite passes (33/33)
 - [ ] README.md contains realistic example run with fixture output
 - [ ] docs/CHANGELOG.md has entries for all completed tasks (T00–T05)
 - [ ] docs/SESSION_LOG.md has final entry

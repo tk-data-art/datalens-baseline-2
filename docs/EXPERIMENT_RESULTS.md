@@ -410,7 +410,7 @@ B2 has a higher test-to-application LOC ratio, indicating relatively more test i
 
 | Field | Value |
 |---|---|
-| Machine | `Tholkappians-MacBook-Air.local` |
+| Machine | `[redacted]` |
 | CPU architecture | `arm64` (Apple Silicon) |
 | OS version | `macOS-26.5.2-arm64-arm-64bit-Mach-O` |
 | Python version | `3.13.14` |
@@ -425,17 +425,18 @@ B2 has a higher test-to-application LOC ratio, indicating relatively more test i
 
 ### Baseline 1 Repository
 
-- Path: `/Users/tksmac/Documents/datalens-baseline-1`
+- Path: `[project root]`
 - Branch: detached HEAD at `0a88646`
 - Status: T06 complete (prior experiment)
 
 ### Baseline 2 Repository
 
-- Path: `/Users/tksmac/Documents/datalens-baseline-2`
+- Path: `[project root]`
 - Branch: `main` at `2887b15`
 - Status: T06 complete
 
 ---
+*Note: Environment-specific paths and hostname were redacted during post-experiment publication preparation. Original values were present in session logs during experiment execution.*
 
 ## 13. Final Interpretation
 
